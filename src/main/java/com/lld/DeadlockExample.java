@@ -1,5 +1,6 @@
 package com.lld;
 
+// WONT CAUSE A DEADLOCK - MESSUP ON MY END
 public class DeadlockExample {
     public static void main(String[] args) {
         // Create two resources
