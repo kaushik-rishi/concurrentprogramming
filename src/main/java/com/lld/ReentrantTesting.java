@@ -2,6 +2,9 @@ package com.lld;
 
 import java.util.concurrent.Semaphore;
 
+/*
+Re-entrant locking - Allows a thread to acquire the same lock multiple times
+ */
 public class ReentrantTesting {
     private final Object lock = new Object();
     private final Semaphore semaphoreLock = new Semaphore(1);
