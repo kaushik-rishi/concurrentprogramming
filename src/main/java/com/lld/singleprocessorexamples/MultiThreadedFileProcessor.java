@@ -1,12 +1,13 @@
 package com.lld.singleprocessorexamples;
 
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /*
 Will be more efficient / asynchronous than the SingleThreaded example
  */
-class MultiThreadedProcessor {
+public class MultiThreadedFileProcessor {
     private final BlockingQueue<String> readQueue = new LinkedBlockingQueue<>();
     private final BlockingQueue<ProcessedDocument> writeQueue = new LinkedBlockingQueue<>();
 
@@ -17,6 +18,36 @@ class MultiThreadedProcessor {
         ProcessedDocument(String content, String path) {
             this.content = content;
             this.originalPath = path;
+        }
+    }
+
+    private String readFile(String path) {
+        System.out.printf("reading file %s\n", path);
+        try {
+            Thread.sleep(5000);
+            return "dummy file content";
+        } catch (InterruptedException e) {
+            System.out.println("exception while reading the file");
+            return "";
+        }
+    }
+
+    private String processContent(String content) {
+        try {
+            Thread.sleep(5000);
+            return "processed file content";
+        } catch (InterruptedException e) {
+            System.out.println("exception while processing the content");
+            return "";
+        }
+    }
+
+    private void saveResult(String path, String content) {
+        try {
+            Thread.sleep(4000);
+            System.out.println("done writing to path");
+        } catch (InterruptedException e) {
+            System.out.println("write file");
         }
     }
 
@@ -52,7 +83,7 @@ class MultiThreadedProcessor {
             while(true) {
                 try {
                     ProcessedDocument doc = writeQueue.take();
-                    saveResult(doc.content);
+                    saveResult(doc.originalPath, doc.content);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
