@@ -1,22 +1,34 @@
 package com.lld.session_three;
 
-public class BlockingQueueImpl {
-    private volatile Queue<Integer> q;
+import java.util.Queue;
 
-    void put(int x) {
-        if (q.size() == capacity) {
+public class BlockingQueueImpl {
+    private final int capacity;
+    private Queue<Integer> q;
+
+    public BlockingQueueImpl(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getSize() {
+        return this.q.size();
+    }
+
+    void put(int x) throws InterruptedException {
+        while (q.size() == capacity) {
             wait();
         }
         q.add(x);
         notifyAll();
     }
 
-    void take() {
-        if (q.size() == 0) {
+    int take() throws InterruptedException {
+        while (q.isEmpty()) {
             wait();
-        }
-        if (q.size() == capacity) {
-            notifyAll();
         }
         return q.poll();
     }

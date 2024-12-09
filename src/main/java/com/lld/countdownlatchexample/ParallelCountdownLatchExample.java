@@ -3,6 +3,10 @@ package com.lld.countdownlatchexample;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+
+// https://www.baeldung.com/java-countdown-latch
+// https://learning.oreilly.com/library/view/97-things-every/9781491952689/ch15.html#Alexey_Soshin
+// For advanced and flexible latches - use `CyclicBarrier`
 class WaitingWorker implements Runnable {
     private List<String> outputScraper;
     private CountDownLatch readyThreadCounter;
@@ -37,8 +41,4 @@ class WaitingWorker implements Runnable {
             completedThreadCounter.countDown();
         }
     }
-}
-
-public class ParallelCountdownLatchExample {
-
 }
