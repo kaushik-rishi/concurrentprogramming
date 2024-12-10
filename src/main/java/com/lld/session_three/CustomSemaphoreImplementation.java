@@ -97,29 +97,23 @@ public class CustomSemaphoreImplementation {
             System.out.printf("%s tryna acquire\n", Thread.currentThread().getName());
 
             try {
-                System.out.println(semaphore.tryAcquire(1000));
+                semaphore.acquire();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            //            try {
-//                semaphore.acquire();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//
-//            System.out.printf("%s acquired lock\n", Thread.currentThread().getName());
-//
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException ignored) {}
-//
-//            try {
-//                semaphore.release();
-//                System.out.printf("%s released lock\n", Thread.currentThread().getName());
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            System.out.printf("%s acquired lock\n", Thread.currentThread().getName());
+
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ignored) {}
+
+            try {
+                semaphore.release();
+                System.out.printf("%s released lock\n", Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }, "t2");
 
         t1.start();
