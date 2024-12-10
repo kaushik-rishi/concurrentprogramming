@@ -13,6 +13,22 @@ class Semaphore {
         this.acquired = false;
         notifyAll();
     }
+
+    public synchronized boolean tryAcquire(int timeoutInMs) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + timeoutInMs;
+        long remainingWaitTime = timeoutInMs;
+
+        while (acquired) {
+            if (remainingWaitTime <= 0) {
+                return false;
+            }
+            wait(remainingWaitTime);
+            remainingWaitTime = deadline - System.currentTimeMillis();
+//            remainingWaitTime = remainingWaitTime - (System.currentTimeMillis() - startAcquisitionTime);
+        }
+        this.acquired = true;
+        return true;
+    }
 }
 
 class CountingSemaphore {
@@ -30,6 +46,20 @@ class CountingSemaphore {
     public synchronized void release() {
         ++availableLocks;
         notifyAll();
+    }
+
+    public synchronized boolean tryAcquire(int timeoutInMs) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + timeoutInMs;
+        long remainingWait = timeoutInMs;
+
+        while (!(availableLocks > 0)) {
+            if (remainingWait <= 0) return false;
+            wait(remainingWait);
+            remainingWait = deadline - System.currentTimeMillis();
+        }
+
+        --availableLocks;
+        return true;
     }
 }
 
@@ -67,23 +97,29 @@ public class CustomSemaphoreImplementation {
             System.out.printf("%s tryna acquire\n", Thread.currentThread().getName());
 
             try {
-                semaphore.acquire();
+                System.out.println(semaphore.tryAcquire(1000));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
 
-            System.out.printf("%s acquired lock\n", Thread.currentThread().getName());
-
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ignored) {}
-
-            try {
-                semaphore.release();
-                System.out.printf("%s released lock\n", Thread.currentThread().getName());
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            //            try {
+//                semaphore.acquire();
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//            System.out.printf("%s acquired lock\n", Thread.currentThread().getName());
+//
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException ignored) {}
+//
+//            try {
+//                semaphore.release();
+//                System.out.printf("%s released lock\n", Thread.currentThread().getName());
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
         }, "t2");
 
         t1.start();
