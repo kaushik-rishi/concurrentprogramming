@@ -17,6 +17,8 @@ public class ProducerConsumerBlockingQueue {
             }
         }, "producer");
 
+        Object o = new Object();
+
         // Create multiple consumers
         int numConsumers = 3;
         Thread[] consumers = new Thread[numConsumers];
