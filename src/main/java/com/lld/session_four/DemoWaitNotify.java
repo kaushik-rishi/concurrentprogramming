@@ -1,5 +1,6 @@
 package com.lld.session_four;
 
+// PURELY POC - FOR SESSION PURPOSE - check recording
 public class DemoWaitNotify {
     public static void main(String[] args) throws InterruptedException {
         Object lc = new Object();
@@ -8,7 +9,7 @@ public class DemoWaitNotify {
             try {
                 synchronized (lc) {
                     // file io
-                    new File().read();
+//                    new File().read();
                     Thread.sleep(3000);
                     // 10 second computation
                 }
