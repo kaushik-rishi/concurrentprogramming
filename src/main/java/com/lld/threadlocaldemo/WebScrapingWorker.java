@@ -21,12 +21,12 @@ public class WebScrapingWorker {
 
 class Main {
     public static void main(String[] args) {
-        Thread t1 = new Thread(() -> {
-            WebScrapingWorker.performScraping("google.com");
-            WebScrapingWorker.performScraping("google.com");
-        });
-        Thread t2 = new Thread(() -> {
-            WebScrapingWorker.performScraping("linkedin.com");
-        });
+//        Thread t1 = new Thread(() -> {
+//            WebScrapingWorker.performScraping("google.com");
+//            WebScrapingWorker.performScraping("google.com");
+//        });
+//        Thread t2 = new Thread(() -> {
+//            WebScrapingWorker.performScraping("linkedin.com");
+//        });
     }
 }
